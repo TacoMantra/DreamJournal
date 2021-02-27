@@ -18,6 +18,10 @@ namespace DreamJournal.Models.Enums
 		Nervous,
 		Anxious,
 		Jealous,
-		Resentful
+		Resentful,
+		Hopeful,
+		Confused,
+		Frustrated,
+		Aroused
 	}
 }
