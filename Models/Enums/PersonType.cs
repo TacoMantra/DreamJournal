@@ -10,6 +10,7 @@ namespace DreamJournal.Models.Enums
 		Unknown,
 		Relationship,
 		Famous,
-		Fictional
+		Fictional,
+		Other
 	}
 }

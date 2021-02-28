@@ -29,6 +29,7 @@ namespace DreamJournal.Models.Enums
 		FatherInLaw,
 		StepFather,
 		StepMother,
-		Enemy
+		Enemy,
+		Other
 	}
 }

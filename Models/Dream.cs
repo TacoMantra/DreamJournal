@@ -14,13 +14,13 @@ namespace DreamJournal.Models
 
 		public IEnumerable<Person> People { get; set; }
 
-		public IEnumerable<EmotionType> Emotions { get; set; }
+		public EmotionType Emotion { get; set; }
 
-		public IEnumerable<Place> Places { get; set; }
+		public Place Place { get; set; }
 
 		// TODO: these are important but cumbersome to enter. Prompt user to enter a few
 		// top of mind events during onboarding and make them selectable later.
-		public IEnumerable<LifeEvent> LifeEvents { get; set; }
+		public LifeEvent LifeEvent{ get; set; }
 
 		public string Description { get; set; }
 	}
