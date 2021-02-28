@@ -1,17 +1,15 @@
 import * as React from 'react';
 import { Route } from 'react-router';
-import Layout from './components/Layout';
-import Home from './components/Home';
-import Counter from './components/Counter';
-import FetchData from './components/FetchData';
+import { CssBaseline, ThemeProvider } from '@material-ui/core';
+import Layout from './components/layout/Layout';
+import Dashboard from './Sections/dashboard/Dashboard';
 
-import './custom.css'
-
-// TODO: create dream journal react components/routes
 export default () => (
-    <Layout>
-        <Route exact path='/' component={Home} />
-        <Route path='/counter' component={Counter} />
-        <Route path='/fetch-data/:startDateIndex?' component={FetchData} />
-    </Layout>
+  <CssBaseline>
+    <ThemeProvider>
+      <Layout>
+        <Route exact path="/" component={Dashboard} />
+      </Layout>
+    </ThemeProvider>
+  </CssBaseline>
 );
