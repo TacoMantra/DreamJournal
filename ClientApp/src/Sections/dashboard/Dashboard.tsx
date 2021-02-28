@@ -15,7 +15,7 @@ const alarms = [
   },
 ];
 
-const Dashboard = () => (
+const Dashboard = (): React.FC => (
   <>
     <Grid container alignItems="center">
       <AccessAlarmIcon />

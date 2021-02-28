@@ -4,7 +4,7 @@ import Layout from './components/layout/Layout';
 import Dashboard from './Sections/dashboard/Dashboard';
 import AppMenu from './components/app-menu/index';
 
-export default () => (
+export default (): React.FC => (
   <>
     <AppMenu />
     <Layout>

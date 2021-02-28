@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { makeStyles, Paper, Container } from '@material-ui/core';
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = ({ children }: { children: React.ReactNode }): React.FC => {
   const useStyles = makeStyles((theme: Theme) => ({
     appPaper: {
       margin: theme.spacing(2),

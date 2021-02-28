@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => createStyles({
   },
 }));
 
-const AppMenu = () => {
+const AppMenu = (): React.FC => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);

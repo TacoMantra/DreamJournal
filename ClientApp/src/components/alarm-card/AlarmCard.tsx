@@ -1,17 +1,16 @@
 import {
-  makeStyles, Card, Typography, Grid, IconButton, Icon,
+  makeStyles, Card, Typography, Grid, IconButton,
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import React from 'react';
-
-type DaysOfWeekAbbreviations = 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat' | 'Sun';
+import { DaysOfWeekAbbreviations } from '../../consts/types';
 
 interface IAlarmCardProps {
   time: string;
   days: Array<DaysOfWeekAbbreviations>;
 }
 
-const AlarmCard = ({ time, days }: IAlarmCardProps) => {
+const AlarmCard = ({ time, days }: IAlarmCardProps): React.FC => {
   const useStyles = makeStyles((theme) => ({
     root: {
       margin: theme.spacing(2),
