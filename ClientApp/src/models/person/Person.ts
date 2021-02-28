@@ -53,12 +53,12 @@ export interface IPerson {
 }
 
 const create = (args: Partial<IPerson>): IPerson => ({
-  firstName: args.firstName ?? '',
-  lastName: args.lastName ?? '',
-  relationshipToUser: args.relationshipToUser ?? RelationshipType.Unknown,
-  deceased: args.deceased ?? false,
-  type: args.type ?? PersonType.Unknown,
-  familiarity: args.familiarity ?? FamiliarityType.Unknown,
+  firstName: args.firstName || '',
+  lastName: args.lastName || '',
+  relationshipToUser: args.relationshipToUser || RelationshipType.Unknown,
+  deceased: args.deceased || false,
+  type: args.type || PersonType.Unknown,
+  familiarity: args.familiarity || FamiliarityType.Unknown,
 });
 
 const Person = {

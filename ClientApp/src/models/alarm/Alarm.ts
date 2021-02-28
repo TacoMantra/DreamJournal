@@ -5,16 +5,10 @@ export interface IAlarm {
   days: Array<DaysOfWeekAbbreviations>;
 }
 
-const create = (args: Partial<IAlarm>): IAlarm => {
-  if (!args.time) {
-    throw new Error('Missing required property "time" of model "alarm"');
-  }
-
-  return {
-    time: args.time,
-    days: args.days ?? [],
-  };
-};
+const create = (args: Partial<IAlarm>): IAlarm => ({
+  time: args.time || new Date(),
+  days: args.days || [],
+});
 
 const Alarm = { create };
 

@@ -1,4 +1,6 @@
-import { IPerson, IPlace, ILifeEvent } from '../index';
+import type { IPerson } from '../person/Person';
+import type { IPlace } from '../place/Place';
+import type { ILifeEvent } from '../life-event/LifeEvent';
 
 export enum EmotionType {
   Unknown = 'Unknown',
@@ -24,18 +26,18 @@ export interface IDream {
   dateIn: Date;
   people: Array<IPerson>;
   emotion: EmotionType;
-  place: IPlace;
-  lifeEvent: ILifeEvent;
+  place: IPlace | null;
+  lifeEvent: ILifeEvent | null;
   description: string;
 }
 
 const create = (args: Partial<IDream>): IDream => ({
-  dateIn: args.dateIn ?? new Date(),
-  people: args.people ?? [],
-  emotion: args.emotions ?? EmotionType.Unknown,
-  place: args.places ?? [],
-  lifeEvent: args.lifeEvent ?? [],
-  description: args.description ?? '',
+  dateIn: args.dateIn || new Date(),
+  people: args.people || [],
+  emotion: args.emotions || EmotionType.Unknown,
+  place: args.place || null,
+  lifeEvent: args.lifeEvent || null,
+  description: args.description || '',
 });
 
 const Dream = {

@@ -1,19 +1,13 @@
-import Alarm, { IAlarm } from './alarm/Alarm';
-import Dream, { IDream, IEmotion } from './dream/Dream';
-import LifeEvent, { ILifeEvent } from './life-event/LifeEvent';
-import Person, { IPerson } from './person/Person';
-import Place, { IPlace } from './place/Place';
+import Alarm from './alarm';
+import Dream from './dream';
+import LifeEvent from './life-event';
+import Person from './person';
+import Place from './place';
 
 export {
   Alarm,
-  IAlarm,
   Dream,
-  IDream,
-  IEmotion,
   LifeEvent,
-  ILifeEvent,
   Person,
-  IPerson,
   Place,
-  IPlace,
 };

@@ -3,7 +3,7 @@ import {
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import React from 'react';
-import { IAlarm } from '../../models/alarm/Alarm';
+import type { IAlarm } from '../../models/alarm/Alarm';
 
 const AlarmCard = ({ time, days }: IAlarm): React.FC => {
   const useStyles = makeStyles((theme) => ({
