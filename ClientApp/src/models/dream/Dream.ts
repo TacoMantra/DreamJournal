@@ -34,7 +34,7 @@ const create = (args: Partial<IDream>): IDream => ({
   people: args.people ?? [],
   emotion: args.emotions ?? EmotionType.Unknown,
   place: args.places ?? [],
-  lifeEvents: args.lifeEvents ?? [],
+  lifeEvent: args.lifeEvent ?? [],
   description: args.description ?? '',
 });
 
