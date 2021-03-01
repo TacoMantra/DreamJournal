@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "bootstrap": "^4.6.0",
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
+    "@types/luxon": "^1.26.1",
     "connected-react-router": "6.5.2",
     "history": "4.10.1",
-    "jquery": "^3.5.1",
+    "luxon": "^1.26.0",
     "merge": "1.2.1",
     "popper.js": "^1.16.0",
     "react": "16.11.0",
@@ -31,7 +33,7 @@
     "@types/react-router-dom": "5.1.0",
     "@types/reactstrap": "8.0.6",
     "@typescript-eslint/eslint-plugin": "^4.15.2",
-    "@typescript-eslint/parser": "^2.34.0",
+    "@typescript-eslint/parser": "^4.15npm.2",
     "cross-env": "6.0.3",
     "eslint": "^6.5.1",
     "eslint-config-airbnb-typescript": "^12.3.1",
@@ -41,17 +43,15 @@
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "nan": "^2.14.2",
-    "typescript": "3.6.4"
+    "typescript": "^4.2.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "cross-env CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "lint": "eslint ./src/**/*.ts ./src/**/*.tsx"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "lint": "eslint ./src/**/*.ts ./src/**/*.tsx",
+    "lint:fix": "eslint ./src/**/*.ts ./src/**/*.tsx --fix"
   },
   "browserslist": [
     ">0.2%",

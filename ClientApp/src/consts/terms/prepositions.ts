@@ -1,0 +1,15 @@
+export const IN_A = 'in a';
+export const AT_A = 'at a';
+export const ON_A = 'on a';
+export const IN_AN = 'in an';
+export const AT_AN = 'at an';
+export const ON_AN = 'on an';
+export const IN_THE = 'in the';
+export const AT_THE = 'at the';
+export const ON_THE = 'on the';
+export const IN = 'in';
+export const AT = 'at';
+export const ON = 'on';
+export const IN_YOUR = 'in your';
+export const AT_YOUR = 'at your';
+export const ON_YOUR = 'on your';

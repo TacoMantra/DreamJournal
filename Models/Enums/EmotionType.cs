@@ -22,6 +22,7 @@ namespace DreamJournal.Models.Enums
 		Hopeful,
 		Confused,
 		Frustrated,
-		Aroused
+		Aroused,
+		Other
 	}
 }
