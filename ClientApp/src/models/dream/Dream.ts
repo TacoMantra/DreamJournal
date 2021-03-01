@@ -34,7 +34,7 @@ export interface IDream {
 const create = (args: Partial<IDream>): IDream => ({
   dateIn: args.dateIn || new Date(),
   people: args.people || [],
-  emotion: args.emotions || EmotionType.Unknown,
+  emotion: args.emotion || EmotionType.Unknown,
   place: args.place || null,
   lifeEvent: args.lifeEvent || null,
   description: args.description || '',

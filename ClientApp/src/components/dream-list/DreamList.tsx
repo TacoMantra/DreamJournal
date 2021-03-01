@@ -12,7 +12,7 @@ const DreamList = ({ dreams }: { dreams: Array<IDream>}): React.FC => (
     <Grid item container alignItems="center">
         <NightsStayIcon />
         <Typography variant="h5">
-          {' dreams'}
+          {' Recent Dreams'}
         </Typography>
     </Grid>
     {dreams.slice(0, 3).map((dream) => (
