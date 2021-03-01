@@ -6,7 +6,7 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import AlarmCard from '../alarm-card';
 import { IAlarm } from '../../models/alarm/Alarm';
 
-const AlarmList = ({ alarms }: { alarms: Array<IAlarm>}): React.FC => (
+const AlarmList = ({ alarms }: { alarms: Array<IAlarm> }): React.FC => (
   <Grid direction="column">
     <Grid item container alignItems="center">
       <Grid item container alignItems="center" xs="9">

@@ -11,7 +11,13 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
-    "skipLibCheck": false
+    "skipLibCheck": false,
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ]
   },
   "include": [
     "src"
