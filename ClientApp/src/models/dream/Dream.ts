@@ -32,12 +32,12 @@ export interface IDream {
 }
 
 const create = (args: Partial<IDream>): IDream => ({
-  dateIn: args.dateIn || new Date(),
-  people: args.people || [],
-  emotion: args.emotion || EmotionType.Unknown,
-  place: args.place || null,
-  lifeEvent: args.lifeEvent || null,
-  description: args.description || '',
+  dateIn: args.dateIn ?? new Date(),
+  people: args.people ?? [],
+  emotion: args.emotion ?? EmotionType.Unknown,
+  place: args.place ?? null,
+  lifeEvent: args.lifeEvent ?? null,
+  description: args.description ?? '',
 });
 
 const Dream = {

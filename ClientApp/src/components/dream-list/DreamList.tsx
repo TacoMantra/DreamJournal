@@ -6,7 +6,7 @@ import DreamCard from '../dream-card';
 import type { IDream } from '../../models/Dream/Dream';
 
 const DreamList = ({ dreams }: { dreams: Array<IDream> }): React.FC => (
-  <Grid direction="column">
+  <>
     <Grid item container alignItems="center">
       <NightsStayIcon />
       <Typography variant="h5">
@@ -19,12 +19,13 @@ const DreamList = ({ dreams }: { dreams: Array<IDream> }): React.FC => (
         people={dream.people}
         emotion={dream.emotion}
         place={dream.place}
+        key={dream.dateIn}
       />
     ))}
     <IconButton>
       <MoreHorizIcon />
     </IconButton>
-  </Grid>
+  </>
 );
 
 export default DreamList;

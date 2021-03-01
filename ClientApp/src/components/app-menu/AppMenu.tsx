@@ -40,11 +40,16 @@ const AppMenu = (): React.FC => {
       <AppBar position="static">
         <Container maxWidth="sm">
           <Toolbar>
-            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="menu"
+              onClick={handleMenu}
+            >
               <MenuIcon
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
-                onClick={handleMenu}
               />
             </IconButton>
             <Menu
