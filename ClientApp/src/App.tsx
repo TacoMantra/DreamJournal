@@ -1,17 +1,14 @@
 import * as React from 'react';
 import { Route } from 'react-router';
-import Layout from './components/Layout';
-import Home from './components/Home';
-import Counter from './components/Counter';
-import FetchData from './components/FetchData';
+import Layout from './components/layout/Layout';
+import Dashboard from './Sections/dashboard/Dashboard';
+import AppMenu from './components/app-menu/index';
 
-import './custom.css'
-
-// TODO: create dream journal react components/routes
-export default () => (
+export default (): React.FC => (
+  <>
+    <AppMenu />
     <Layout>
-        <Route exact path='/' component={Home} />
-        <Route path='/counter' component={Counter} />
-        <Route path='/fetch-data/:startDateIndex?' component={FetchData} />
+      <Route exact path="/" component={Dashboard} />
     </Layout>
+  </>
 );
