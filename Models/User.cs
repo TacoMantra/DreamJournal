@@ -14,7 +14,5 @@ namespace DreamJournal
         public string LastName { get; set; }
 
         public DateTime JoinedDate { get; set; }
-
-        public TimeZoneInfo TimeZone { get; set; }
     }
 }

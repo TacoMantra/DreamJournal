@@ -13,7 +13,7 @@ namespace DreamJournal.Models
 		public string LastName { get; set; }
 
 		public RelationshipType RelationshipToUser { get; set; }
-		
+		  
 		public bool Deceased { get; set; }
 
 		public PersonType Type { get; set; }
