@@ -18,8 +18,6 @@ namespace DreamJournal.Models
 
 		public Place Place { get; set; }
 
-		// TODO: these are important but cumbersome to enter. Prompt user to enter a few
-		// top of mind events during onboarding and make them selectable later.
 		public LifeEvent LifeEvent{ get; set; }
 
 		public string Description { get; set; }
