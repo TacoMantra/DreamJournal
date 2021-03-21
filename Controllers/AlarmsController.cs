@@ -65,12 +65,36 @@ namespace DreamJournal.Controllers
             return alarmsList;
         }
 
-        [HttpPost]
-        public StatusCodeResult NewAlarm(Alarm alarm)
+        [HttpPost("create/{userId}")]
+        public NoContentResult NewAlarm(string userId, [FromBody] Alarm alarm)
         {
-            // TODO: handle input errors with appropriate status code
-            // TODO: entity framework - insert alarm into db
-            return new StatusCodeResult(200);
+            DatabaseConnection dbC = new DatabaseConnection();
+
+            try
+            {
+                SQLCommands.ExecuteSQL(dbC.dbConn(), SQLQueries.CreateAlarm(userId, alarm));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error adding alarm for user {userId}: ", ex.Message);
+            }
+            return new NoContentResult();
+        }
+
+        [HttpPost("delete/{alarmId}")]
+        public NoContentResult DeleteAlarm(int alarmId)
+        {
+            DatabaseConnection dbC = new DatabaseConnection();
+
+            try
+            {
+                SQLCommands.ExecuteSQL(dbC.dbConn(), SQLQueries.DeleteAlarm(alarmId));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting alarm {alarmId}: ", ex.Message);
+            }
+            return new NoContentResult();
         }
     }
 }

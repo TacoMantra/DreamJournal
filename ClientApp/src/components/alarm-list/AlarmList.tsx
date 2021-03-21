@@ -23,6 +23,7 @@ const AlarmList = ({ alarms }: { alarms: Array<IAlarm> }): React.FC => (
         </Grid>
         {alarms.slice(0, 3).map((alarm) => (
             <AlarmCard
+                id={alarm.id}
                 time={alarm.time}
                 days={alarm.days}
                 key={`${alarm.time}${alarm.days.join()}`}

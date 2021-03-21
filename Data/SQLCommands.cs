@@ -24,13 +24,28 @@ namespace DreamJournal.Data
                 theTable.Load(theData);
 
                 return theTable;
-
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Error in GetRecords() : " + ex.Message);
 
                 return null;
+            }
+        }
+
+        public static void ExecuteSQL(SqlConnection connection, string sql)
+        {
+            SqlCommand cmd = new SqlCommand();
+            try
+            {
+                cmd.CommandText = sql;
+                cmd.CommandType = CommandType.Text;
+                cmd.Connection = connection;
+                cmd.ExecuteReader();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in ExecuteSQL() : " + ex.Message);
             }
         }
     }
