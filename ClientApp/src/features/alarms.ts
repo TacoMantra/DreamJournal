@@ -1,10 +1,10 @@
 import {
-    createSlice, PayloadAction, createAsyncThunk, createEntityAdapter,
+    createSlice, PayloadAction, createAsyncThunk, createEntityAdapter, isRejectedWithValue,
 } from '@reduxjs/toolkit';
 import { DateTime } from 'luxon';
 import { IAlarm } from '../models/alarm/Alarm';
 import LoadingStates from '../consts/enums/loadingStates';
-import { fetchAlarms } from '../data-sources/alarms';
+import { fetchAlarms, createAlarm, deleteAlarm } from '../data-sources/alarms';
 
 export const fetchAlarmsByUserId = createAsyncThunk(
     'alarms/fetchByUserIdStatus',
@@ -14,6 +14,30 @@ export const fetchAlarmsByUserId = createAsyncThunk(
             return response;
         } catch (error) {
             return rejectWithValue(error.response.data);
+        }
+    },
+);
+
+export const createAlarmForUser = createAsyncThunk(
+    'alarms/createAlarmForUserStatus',
+    async (args: { userId: string, alarm: IAlarm }, { rejectWithValue }) => {
+        try {
+            await createAlarm(args.userId, args.alarm);
+            return args.alarm;
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    },
+);
+
+export const deleteAlarmById = createAsyncThunk(
+    'alarms/deleteAlarmByIdStatus',
+    async (alarmId: int, { rejectWithValue }) => {
+        try {
+            await deleteAlarm(alarmId);
+            return alarmId;
+        } catch (error) {
+            return rejectWithValue(error.response);
         }
     },
 );
@@ -37,6 +61,26 @@ export const alarmsSlice = createSlice({
             state.loading = LoadingStates.idle;
         },
         [fetchAlarmsByUserId.rejected]: (state, action: PayloadAction<Error>) => {
+            state.loading = LoadingStates.failed;
+            state.error = action.payload;
+        },
+        [createAlarmForUser.pending]: (state) => { state.loading = LoadingStates.pending; },
+        [createAlarmForUser.fulfilled]: (state, action: PayloadAction<IAlarm>) => {
+            alarmsAdapter.addOne(state, action.payload);
+            state.error = null;
+            state.loading = LoadingStates.idle;
+        },
+        [fetchAlarmsByUserId.rejected]: (state, action: PayloadAction<Error>) => {
+            state.loading = LoadingStates.failed;
+            state.error = action.payload;
+        },
+        [deleteAlarmById.pending]: (state) => { state.loading = LoadingStates.pending; },
+        [deleteAlarmById.fulfilled]: (state, action: PayloadAction<int>) => {
+            alarmsAdapter.removeOne(state, action.payload);
+            state.error = null;
+            state.loading = LoadingStates.idle;
+        },
+        [deleteAlarmById.rejected]: (state, action: PayloadAction<Error>) => {
             state.loading = LoadingStates.failed;
             state.error = action.payload;
         },

@@ -13,8 +13,13 @@ const fetchAlarms = async (userId: string): Promise<IAlarm> => {
 };
 
 const createAlarm = async (userId: string, alarm: IAlarm): Promise<AxiosResponse<unknown>> => {
-    const response = await axios.post(`alarms/${userId}`, { alarm });
+    const response = await axios.post(`alarms/create/${userId}`, { alarm });
     return response;
 };
 
-export { fetchAlarms, createAlarm };
+const deleteAlarm = async (alarmId: number): Promise<AxiosResponse<unknown>> => {
+    const response = await axios.post(`alarms/delete/${alarmId}`);
+    return response;
+};
+
+export { fetchAlarms, createAlarm, deleteAlarm };

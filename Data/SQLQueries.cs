@@ -21,15 +21,15 @@ namespace DreamJournal.Data
         }
 
         // Create
-        public static string CreateAlarm(TimeSpan time, string soundFile, string userId, IEnumerable<int> days)
+        public static string CreateAlarm(string userId, Alarm alarm)
         {
             return $"DECLARE @TempTable TABLE(NewAlarmId INT) DECLARE @NewAlarmId INT;\n" +
                 $"INSERT INTO Alarm(Time, SoundFile, UserNum)\n" +
                 $"OUTPUT INSERTED.AlarmId INTO @TempTable\n" +
-                $"SELECT '{time}', '{soundFile}', U.userNum\n" +
+                $"SELECT '{alarm.Time}', '{alarm.SoundFile}', U.userNum\n" +
                 $"FROM[User] AS U WHERE U.UserGuid = '{userId}'\n" +
                 $"SELECT TOP(1) @NewAlarmId = NewAlarmId FROM @TempTable;\n" +
-                $"INSERT INTO AlarmDays(AlarmId, Day) VALUES {GetAlarmDayPairsString("@NewAlarmId", days)}\n";
+                $"INSERT INTO AlarmDays(AlarmId, Day) VALUES {GetAlarmDayPairsString("@NewAlarmId", (IEnumerable<int>)alarm.Days)}";
         }
 
         // Read
