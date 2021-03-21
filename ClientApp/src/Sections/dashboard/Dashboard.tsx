@@ -1,41 +1,31 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import AlarmList from '../../components/alarm-list';
 import mockDreams from '../../mocks/dreams';
 import DreamList from '../../components/dream-list';
-import Alarm, { DaysOfWeekAbbreviations } from '../../models/alarm/Alarm';
+import { AppState } from '../../store/configureStore';
+import { fetchAlarmsByUserId } from '../../features/alarms';
 
 const Dashboard = (): React.FC => {
-  const [alarms, setAlarms] = useState([]);
-  const [hasFetchedAlarms, setHasFetchedAlarms] = useState(false);
+    const dispatch = useDispatch();
+    const [hasFetchedAlarms, setHasFetchedAlarms] = useState(false);
 
-  const fetchAlarms = async (userId: string) => {
-    const response = await fetch(`alarms/${userId}`);
-    const data = await response.json();
+    const alarms = useSelector((state: AppState) => state.alarms.entities);
 
-    const alarmsFromData = data.map((a) => Alarm.create({
-      id: a.id,
-      time: `${a.time.hours}:${a.time.minutes}`,
-      days: a.days.map((d) => DaysOfWeekAbbreviations[d]),
-      soundFile: a.soundFile,
-    }));
+    useEffect(() => {
+        if (!hasFetchedAlarms) {
+            // TODO: get this id from user context
+            dispatch(fetchAlarmsByUserId('64C64D4B-BBE5-4411-AC1F-97217E79B204'));
+            setHasFetchedAlarms(true);
+        }
+    }, [hasFetchedAlarms, dispatch]);
 
-    setAlarms(alarmsFromData);
-  };
-
-  useEffect(() => {
-    if (!hasFetchedAlarms) {
-      // TODO: get this id from user context
-      fetchAlarms('64C64D4B-BBE5-4411-AC1F-97217E79B204');
-      setHasFetchedAlarms(true);
-    }
-  }, [hasFetchedAlarms]);
-
-  return (
-    <>
-      <AlarmList alarms={alarms} />
-      <DreamList dreams={mockDreams} />
-    </>
-  );
+    return (
+        <>
+            <AlarmList alarms={Object.values(alarms)} />
+            <DreamList dreams={mockDreams} />
+        </>
+    );
 };
 
 export default Dashboard;
