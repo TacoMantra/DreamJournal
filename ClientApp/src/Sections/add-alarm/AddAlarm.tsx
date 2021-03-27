@@ -64,7 +64,6 @@ const AddAlarm = (): React.FC => {
             <Grid item>
                 <Typography variant="h6">Time</Typography>
                 <TimePicker
-                    label="Select a Time"
                     value={selectedTime}
                     onChange={setSelectedTime}
                     fullWidth
