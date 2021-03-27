@@ -3,8 +3,10 @@ import { Typography, Grid, IconButton } from '@material-ui/core';
 import AccessAlarmIcon from '@material-ui/icons/AccessAlarm';
 import AddIcon from '@material-ui/icons/Add';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import { Link } from 'react-router-dom';
 import AlarmCard from '../alarm-card';
 import { IAlarm } from '../../models/alarm/Alarm';
+import { AddAlarmPath } from '../../Sections/add-alarm/AddAlarm';
 
 const AlarmList = ({ alarms }: { alarms: Array<IAlarm> }): React.FC => (
     <>
@@ -16,9 +18,11 @@ const AlarmList = ({ alarms }: { alarms: Array<IAlarm> }): React.FC => (
                 </Typography>
             </Grid>
             <Grid item container justify="flex-end" xs={3}>
-                <IconButton>
-                    <AddIcon />
-                </IconButton>
+                <Link to={AddAlarmPath} aria-label="Add a new alarm">
+                    <IconButton>
+                        <AddIcon />
+                    </IconButton>
+                </Link>
             </Grid>
         </Grid>
         {alarms.slice(0, 3).map((alarm) => (

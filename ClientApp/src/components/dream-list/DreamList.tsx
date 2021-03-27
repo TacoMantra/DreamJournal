@@ -6,26 +6,26 @@ import DreamCard from '../dream-card';
 import type { IDream } from '../../models/Dream/Dream';
 
 const DreamList = ({ dreams }: { dreams: Array<IDream> }): React.FC => (
-  <>
-    <Grid item container alignItems="center">
-      <NightsStayIcon />
-      <Typography variant="h5">
-        {' Recent Dreams'}
-      </Typography>
-    </Grid>
-    {dreams.slice(0, 3).map((dream) => (
-      <DreamCard
-        dateIn={dream.dateIn}
-        people={dream.people}
-        emotion={dream.emotion}
-        place={dream.place}
-        key={dream.dateIn}
-      />
-    ))}
-    <IconButton>
-      <MoreHorizIcon />
-    </IconButton>
-  </>
+    <>
+        <Grid item container alignItems="center">
+            <NightsStayIcon />
+            <Typography variant="h5">
+                {' Recent Dreams'}
+            </Typography>
+        </Grid>
+        {dreams.slice(0, 3).map((dream) => (
+            <DreamCard
+                dateIn={dream.dateIn}
+                people={dream.people}
+                emotion={dream.emotion}
+                place={dream.place}
+                key={dream.dateIn}
+            />
+        ))}
+        <IconButton>
+            <MoreHorizIcon />
+        </IconButton>
+    </>
 );
 
 export default DreamList;

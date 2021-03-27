@@ -1,64 +1,116 @@
-import React, { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-import { useForm } from 'react-hook-form';
+import React, { useState } from 'react';
 import {
-    Typography, Grid, FormControl, FormControlLabel, Checkbox, FormGroup, FormLabel, FormHelperText,
+    Typography, Grid, IconButton, makeStyles, Select, FormControl, InputLabel, MenuItem,
 } from '@material-ui/core';
-import { createAlarmForUser } from '../../features/alarms';
-import { IAlarm } from '../../models/alarm/Alarm';
-
-const useStyles = makeStyles((theme: Theme) => createStyles({
-    root: {
-        display: 'flex',
-    },
-    formControl: {
-        margin: theme.spacing(3),
-    },
-}));
+import { TimePicker } from '@material-ui/pickers';
+import { DateTime } from 'luxon';
+import clsx from 'clsx';
+import ReactAudioPlayer from 'react-audio-player';
+import dayInitials from '../../consts/terms/dayInitials';
+import soundFiles from '../../consts/terms/soundFiles';
+import windChime from '../../assets/sounds/118979__esperri__windchimes-2.wav';
 
 const AddAlarm = (): React.FC => {
-    const dispatch = useDispatch();
+    const useStyles = makeStyles((theme) => ({
+        dayButton: {
+            width: theme.spacing(7),
+            height: theme.spacing(7),
+        },
+        dayButtonSelected: {
+            background: theme.palette.action.selected,
+        },
+    }));
+
+    const [selectedTime, setSelectedTime] = useState(DateTime.now());
+    const [selectedDays, setSelectedDays] = useState([]);
+    const [soundFileName, setSoundFileName] = useState('');
+    const [soundFile, setSoundFile] = useState(null);
+
+    const toggleDaySelection = (day: number) => {
+        if (selectedDays.includes(day)) {
+            setSelectedDays(selectedDays.filter((d) => d !== day));
+        } else {
+            setSelectedDays([...selectedDays, day]);
+        }
+    };
+
+    const handleChangeSoundFile = (event) => {
+        const selectedSoundFile = Object.values(soundFiles).find((s) => s.name === event.target.value)?.filename;
+        setSoundFile(selectedSoundFile);
+        setSoundFileName(event.target.value);
+    };
+
     const classes = useStyles();
 
-    const {
-        handleSubmit,
-    } = useForm();
-
-    const onSubmit = useCallback((alarm: IAlarm) => {
-        dispatch(createAlarmForUser({
-            userId: '64C64D4B-BBE5-4411-AC1F-97217E79B204',
-            alarm,
-        }));
-    }, [dispatch]);
-
     return (
-        <Grid>
-            <Typography variant="h5">
-                {' Alarms'}
-            </Typography>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <FormControl component="fieldset" className={classes.formControl}>
-                    <FormLabel component="legend">Assign responsibility</FormLabel>
-                    <FormGroup>
-                        <FormControlLabel
-                            control={<Checkbox onChange={handleChange} name="Sunday" />}
-                            label="Sunday"
-                        />
-                        <FormControlLabel
-                            control={<Checkbox onChange={handleChange} name="jason" />}
-                            label="Jason Killian"
-                        />
-                        <FormControlLabel
-                            control={<Checkbox onChange={handleChange} name="antoine" />}
-                            label="Antoine Llorca"
-                        />
-                    </FormGroup>
-                    <FormHelperText>Be careful</FormHelperText>
+        <Grid
+            container
+            direction="column"
+            spacing={2}
+        >
+            <Grid item>
+                <Typography variant="h5">
+                    New Alarm
+                </Typography>
+            </Grid>
+            <Grid item>
+                <TimePicker
+                    label="Time"
+                    value={selectedTime}
+                    onChange={setSelectedTime}
+                    fullWidth
+                />
+            </Grid>
+            <Grid item>
+                <InputLabel>Repeat</InputLabel>
+                <Grid container justify="space-around">
+                    {
+                        dayInitials.map((d, i) => (
+                            <Grid item key={`${d}${i}`}>
+                                <IconButton
+                                    className={
+                                        selectedDays.includes(i)
+                                            ? clsx([classes.dayButton, classes.dayButtonSelected])
+                                            : classes.dayButton
+                                    }
+                                    onClick={() => toggleDaySelection(i)}
+                                >
+                                    {d}
+                                </IconButton>
+                            </Grid>
+                        ))
+                    }
+                </Grid>
+            </Grid>
+            <Grid item>
+                <FormControl fullWidth>
+                    <InputLabel id="soundFile-label">Sound</InputLabel>
+                    <Select
+                        fullWidth
+                        value={soundFileName}
+                        onChange={handleChangeSoundFile}
+                    >
+                        {Object.keys(soundFiles).map((s) => {
+                            const fileInfo = soundFiles[s];
+                            return <MenuItem key={s} value={fileInfo.name}>{fileInfo.name}</MenuItem>;
+                        })}
+                    </Select>
                 </FormControl>
-            </form>
-        </Grid>
+                {soundFile
+                    ? (
+                        <ReactAudioPlayer
+                            src={windChime}
+                            autoPlay
+                            loop
+                        />
+                    )
+                    : null}
 
+            </Grid>
+        </Grid>
     );
 };
+
+export const AddAlarmPath = '/add-alarm';
 
 export default AddAlarm;
