@@ -8,7 +8,7 @@ import clsx from 'clsx';
 import ReactAudioPlayer from 'react-audio-player';
 import dayInitials from '../../consts/terms/dayInitials';
 import soundFiles from '../../consts/terms/soundFiles';
-import windChime from '../../assets/sounds/118979__esperri__windchimes-2.wav';
+import WindChimes from '../../assets/sounds/118979__esperri__windchimes-2.wav';
 
 const AddAlarm = (): React.FC => {
     const useStyles = makeStyles((theme) => ({
@@ -23,7 +23,7 @@ const AddAlarm = (): React.FC => {
 
     const [selectedTime, setSelectedTime] = useState(DateTime.now());
     const [selectedDays, setSelectedDays] = useState([]);
-    const [soundFileName, setSoundFileName] = useState('');
+    const [soundName, setSoundName] = useState('');
     const [soundFile, setSoundFile] = useState(null);
 
     const toggleDaySelection = (day: number) => {
@@ -35,9 +35,17 @@ const AddAlarm = (): React.FC => {
     };
 
     const handleChangeSoundFile = (event) => {
-        const selectedSoundFile = Object.values(soundFiles).find((s) => s.name === event.target.value)?.filename;
-        setSoundFile(selectedSoundFile);
-        setSoundFileName(event.target.value);
+        setSoundFile(Object.values(soundFiles).find((s) => s.name === event.target.value)?.file);
+        setSoundName(event.target.value);
+    };
+
+    const getSound = (name: string) => {
+        switch (name) {
+            case 'WindChimes':
+                return WindChimes;
+            default:
+                return WindChimes;
+        }
     };
 
     const classes = useStyles();
@@ -54,15 +62,16 @@ const AddAlarm = (): React.FC => {
                 </Typography>
             </Grid>
             <Grid item>
+                <Typography variant="h6">Time</Typography>
                 <TimePicker
-                    label="Time"
+                    label="Select a Time"
                     value={selectedTime}
                     onChange={setSelectedTime}
                     fullWidth
                 />
             </Grid>
             <Grid item>
-                <InputLabel>Repeat</InputLabel>
+                <Typography variant="h6">Repeat</Typography>
                 <Grid container justify="space-around">
                     {
                         dayInitials.map((d, i) => (
@@ -83,11 +92,12 @@ const AddAlarm = (): React.FC => {
                 </Grid>
             </Grid>
             <Grid item>
+                <Typography variant="h6">Sound</Typography>
                 <FormControl fullWidth>
-                    <InputLabel id="soundFile-label">Sound</InputLabel>
+                    <InputLabel id="soundFile-label">Select a Sound</InputLabel>
                     <Select
                         fullWidth
-                        value={soundFileName}
+                        value={soundName}
                         onChange={handleChangeSoundFile}
                     >
                         {Object.keys(soundFiles).map((s) => {
@@ -99,9 +109,8 @@ const AddAlarm = (): React.FC => {
                 {soundFile
                     ? (
                         <ReactAudioPlayer
-                            src={windChime}
+                            src={getSound(soundFile)}
                             autoPlay
-                            loop
                         />
                     )
                     : null}

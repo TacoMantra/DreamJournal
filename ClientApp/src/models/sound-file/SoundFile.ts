@@ -1,6 +1,6 @@
 interface ISoundFile {
     name: string;
-    filename: string;
+    file: string;
 }
 
 export default ISoundFile;
