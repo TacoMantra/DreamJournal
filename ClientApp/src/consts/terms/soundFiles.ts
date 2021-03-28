@@ -5,6 +5,14 @@ const soundFiles: Record<string, ISoundFile> = {
         name: 'Wind Chimes',
         file: 'WindChimes',
     },
+    orchestra: {
+        name: 'Orchestra',
+        file: 'Orchestra',
+    },
+    bell: {
+        name: 'Bell',
+        file: 'Bell',
+    },
 };
 
 export default soundFiles;
