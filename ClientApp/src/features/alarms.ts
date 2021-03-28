@@ -1,5 +1,5 @@
 import {
-    createSlice, PayloadAction, createAsyncThunk, createEntityAdapter, isRejectedWithValue,
+    createSlice, PayloadAction, createAsyncThunk, createEntityAdapter,
 } from '@reduxjs/toolkit';
 import { DateTime } from 'luxon';
 import { IAlarm } from '../models/alarm/Alarm';

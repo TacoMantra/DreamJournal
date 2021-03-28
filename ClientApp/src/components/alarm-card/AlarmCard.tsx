@@ -26,10 +26,11 @@ const AlarmCard = ({ time, days, id }: IAlarm): React.FC => {
                     <Typography variant="h6">{time}</Typography>
                     <Typography>
                         {days.map((day, i) => {
+                            const dayAbbrev = day.slice(0, 3);
                             if (i < days.length - 1) {
-                                return `${day}, `;
+                                return `${dayAbbrev}, `;
                             }
-                            return day;
+                            return dayAbbrev;
                         })}
                     </Typography>
                 </Grid>
