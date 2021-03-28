@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { DateTime } from 'luxon';
 import Alarm, { IAlarm } from '../models/alarm/Alarm';
 import DaysOfWeek from '../consts/enums/daysOfWeek';
 
@@ -7,7 +8,7 @@ const fetchAlarms = async (userId: string): Promise<IAlarm> => {
 
     return response.data.map((a) => Alarm.create({
         id: a.id,
-        time: a.time,
+        time: DateTime.fromISO(a.time).toLocaleString(DateTime.TIME_SIMPLE),
         days: a.days.map((d) => DaysOfWeek[d]),
         soundFile: a.soundFile,
     }));
