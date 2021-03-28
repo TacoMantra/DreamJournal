@@ -5,6 +5,7 @@ import mockDreams from '../../mocks/dreams';
 import DreamList from '../../components/dream-list';
 import { AppState } from '../../store/configureStore';
 import { fetchAlarmsByUserId } from '../../features/alarms';
+import mockUserId from '../../consts/mocks/index';
 
 const Dashboard = (): React.FC => {
     const dispatch = useDispatch();
@@ -15,7 +16,7 @@ const Dashboard = (): React.FC => {
     useEffect(() => {
         if (!hasFetchedAlarms) {
             // TODO: get this id from user context
-            dispatch(fetchAlarmsByUserId('64C64D4B-BBE5-4411-AC1F-97217E79B204'));
+            dispatch(fetchAlarmsByUserId(mockUserId));
             setHasFetchedAlarms(true);
         }
     }, [hasFetchedAlarms, dispatch]);

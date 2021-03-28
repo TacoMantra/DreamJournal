@@ -5,17 +5,11 @@ using System.Threading.Tasks;
 
 namespace DreamJournal.Models
 {
-    public class Alarm
+    public class AlarmEntity : Alarm
     {
-        public TimeSpan Time { get; set; }
+        public int Id { get; set; }
 
-        public IEnumerable<DayOfWeek> Days { get; set; }
-
-        public string SoundFile { get; set; }
-
-        public Alarm() { }
-
-        public Alarm(TimeSpan time, IEnumerable<string> dayNames, string soundFile)
+        public AlarmEntity(int id, TimeSpan time, IEnumerable<string> dayNames, string soundFile)
         {
             var days = new List<DayOfWeek>();
             foreach (var dayName in dayNames)
@@ -29,6 +23,7 @@ namespace DreamJournal.Models
                     Console.WriteLine($"Invalid day of week encountered from data: {dayName}");
                 }
             }
+            Id = id;
             Time = time;
             Days = days;
             SoundFile = soundFile;

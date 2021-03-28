@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DreamJournal.Data;
 using System.Data;
+using Newtonsoft.Json;
 
 namespace DreamJournal.Controllers
 {
@@ -14,9 +15,9 @@ namespace DreamJournal.Controllers
     public class AlarmsController
     {
         [HttpGet("{userId}")]
-        public IEnumerable<Alarm> GetAlarms(string userId)
+        public IEnumerable<AlarmEntity> GetAlarms(string userId)
         {
-            var alarmsList = new List<Alarm>();
+            var alarmsList = new List<AlarmEntity>();
 
             DatabaseConnection dbC = new DatabaseConnection();
 
@@ -47,7 +48,7 @@ namespace DreamJournal.Controllers
                             // Don't repeat alarms
                             if (!alarmsList.Any(a => a.Id == alarmId))
                             {
-                                alarmsList.Add(new Alarm(alarmId, alarmTime, days, soundFile));
+                                alarmsList.Add(new AlarmEntity(alarmId, alarmTime, days, soundFile));
                             }
                         }
                         catch (Exception ex)
