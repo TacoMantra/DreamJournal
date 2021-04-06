@@ -8,12 +8,13 @@ import clsx from 'clsx';
 import ReactAudioPlayer from 'react-audio-player';
 import AccessAlarmIcon from '@material-ui/icons/AccessAlarm';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import soundFiles from '../../consts/terms/soundFiles';
 import WindChimes from '../../assets/sounds/118979__esperri__windchimes-2.wav';
 import Orchestra from '../../assets/sounds/371059__joshuaempyre__duduk-with-orchestra.wav';
 import Bell from '../../assets/sounds/361496__tec-studio__bell-echo.wav';
 import Alarm from '../../models/alarm';
-import getEnumStringValues from '../../utils/index';
+import { getEnumStringValues } from '../../utils/index';
 import DaysOfWeek from '../../consts/enums/daysOfWeek';
 import { createAlarmForUser } from '../../features/alarms';
 import mockUserId from '../../consts/mocks';
@@ -32,6 +33,7 @@ const AddAlarm = (): React.FC => {
         },
     }));
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const [selectedTime, setSelectedTime] = useState(DateTime.now());
     const [selectedDays, setSelectedDays] = useState([]);
@@ -69,7 +71,7 @@ const AddAlarm = (): React.FC => {
 
     const handleSave = () => {
         const alarm = Alarm.create({
-            time: selectedTime.toLocaleString(DateTime.TIME_24_SIMPLE),
+            time: selectedTime.toLocaleString(DateTime.TIME_24_WITH_SECONDS),
             days: selectedDays,
             soundFile: soundFileName,
         });
@@ -78,6 +80,8 @@ const AddAlarm = (): React.FC => {
             userId: mockUserId,
             alarm,
         }));
+
+        history.push('/');
     };
 
     const classes = useStyles();

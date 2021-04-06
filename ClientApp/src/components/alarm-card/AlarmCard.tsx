@@ -4,6 +4,7 @@ import {
 import DeleteIcon from '@material-ui/icons/Delete';
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { DateTime } from 'luxon';
 import type { IAlarm } from '../../models/alarm/Alarm';
 import { deleteAlarmById } from '../../features/alarms';
 
@@ -23,7 +24,7 @@ const AlarmCard = ({ time, days, id }: IAlarm): React.FC => {
         <Card className={classes.root}>
             <Grid container alignItems="center">
                 <Grid item xs={9}>
-                    <Typography variant="h6">{time}</Typography>
+                    <Typography variant="h6">{ time.toLocaleString(DateTime.TIME_SIMPLE) }</Typography>
                     <Typography>
                         {days.map((day, i) => {
                             const dayAbbrev = day.slice(0, 3);

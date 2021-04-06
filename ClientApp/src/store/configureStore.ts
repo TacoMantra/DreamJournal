@@ -1,19 +1,23 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
+import { createBrowserHistory } from 'history';
 import { AlarmReducer } from '../features';
 
-const createStore = (history: History): EnhancedStore => {
-    const rootReducer = combineReducers({
-        alarms: AlarmReducer,
-        router: connectRouter(history),
-    });
+const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href') as string;
+const history = createBrowserHistory({ basename: baseUrl });
 
-    return configureStore({
-        reducer: rootReducer,
-        middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(routerMiddleware(history)),
-    });
-};
+const rootReducer = combineReducers({
+    alarms: AlarmReducer,
+    router: connectRouter(history),
+});
+
+const store = configureStore({
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(routerMiddleware(history)),
+});
 
 export type AppState = ReturnType<typeof rootReducer>;
 
-export default createStore;
+export { history };
+
+export default store;
