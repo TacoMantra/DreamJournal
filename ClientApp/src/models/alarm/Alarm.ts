@@ -5,6 +5,7 @@ export interface IAlarm {
     time: string;
     days: Array<DaysOfWeek>;
     soundFile: string;
+    dismissed: string | null;
 }
 
 const create = (args: Partial<IAlarm>): IAlarm => ({
@@ -12,6 +13,7 @@ const create = (args: Partial<IAlarm>): IAlarm => ({
     time: args.time ?? '',
     days: args.days ?? [],
     soundFile: args.soundFile ?? '',
+    dismissed: args.dismissed ?? null,
 });
 
 const Alarm = { create };

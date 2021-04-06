@@ -6,7 +6,7 @@ import { IAlarm } from '../models/alarm/Alarm';
 import LoadingStates from '../consts/enums/loadingStates';
 import { fetchAlarms, createAlarm, deleteAlarm } from '../data-sources/alarms';
 
-export const fetchAlarmsByUserId = createAsyncThunk(
+const fetchAlarmsByUserId = createAsyncThunk(
     'alarms/fetchByUserIdStatus',
     async (userId: string, { rejectWithValue }) => {
         try {
@@ -18,7 +18,7 @@ export const fetchAlarmsByUserId = createAsyncThunk(
     },
 );
 
-export const createAlarmForUser = createAsyncThunk(
+const createAlarmForUser = createAsyncThunk(
     'alarms/createAlarmForUserStatus',
     async (args: { userId: string, alarm: IAlarm }, { rejectWithValue }) => {
         try {
@@ -30,7 +30,7 @@ export const createAlarmForUser = createAsyncThunk(
     },
 );
 
-export const deleteAlarmById = createAsyncThunk(
+const deleteAlarmById = createAsyncThunk(
     'alarms/deleteAlarmByIdStatus',
     async (alarmId: int, { rejectWithValue }) => {
         try {
@@ -46,13 +46,17 @@ const alarmsAdapter = createEntityAdapter<IAlarm>({
     sortComparer: (a, b) => DateTime.fromISO(a.time) < DateTime.fromISO(b.time),
 });
 
-export const alarmsSlice = createSlice({
+const alarmsSlice = createSlice({
     name: 'alarms',
     initialState: alarmsAdapter.getInitialState({
         loading: LoadingStates.idle,
         error: null,
     }),
-    reducers: {},
+    reducers: {
+        dismissAlarmById(state, action: PayloadAction<number>) {
+            alarmsAdapter.updateOne(state, { id: action.payload, changes: { dismissed: DateTime.now().toISODate() } });
+        },
+    },
     extraReducers: {
         [fetchAlarmsByUserId.pending]: (state) => { state.loading = LoadingStates.pending; },
         [fetchAlarmsByUserId.fulfilled]: (state, action: PayloadAction<Array<IAlarm>>) => {
@@ -86,5 +90,9 @@ export const alarmsSlice = createSlice({
         },
     },
 });
+
+export const { dismissAlarmById } = alarmsSlice.actions;
+
+export { fetchAlarmsByUserId, createAlarmForUser, deleteAlarmById };
 
 export default alarmsSlice.reducer;

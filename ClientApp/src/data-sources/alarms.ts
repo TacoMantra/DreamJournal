@@ -2,6 +2,7 @@ import axios from 'axios';
 import { DateTime } from 'luxon';
 import Alarm, { IAlarm } from '../models/alarm/Alarm';
 import DaysOfWeek from '../consts/enums/daysOfWeek';
+import { replace24 } from '../utils';
 
 const fetchAlarms = async (userId: string): Promise<IAlarm> => {
     const response = await axios.get(`alarms/${userId}`);
@@ -15,7 +16,8 @@ const fetchAlarms = async (userId: string): Promise<IAlarm> => {
 };
 
 const createAlarm = async (userId: string, alarm: IAlarm): Promise<AxiosResponse<unknown>> => {
-    const response = await axios.post(`alarms/create/${userId}`, alarm);
+    // replace 24 with 00 before sending to server
+    const response = await axios.post(`alarms/create/${userId}`, Alarm.create({ ...alarm, time: replace24(alarm.time) }));
     return response;
 };
 

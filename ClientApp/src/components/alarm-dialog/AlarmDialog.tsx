@@ -1,7 +1,7 @@
 import {
     Dialog, DialogTitle, DialogContent, DialogActions, Typography, Grid, Button,
 } from '@material-ui/core';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import { DateTime } from 'luxon';
 import ReactAudioPlayer from 'react-audio-player';
@@ -10,12 +10,16 @@ import { AppState } from '../../store/configureStore';
 import WindChimes from '../../assets/sounds/118979__esperri__windchimes-2.wav';
 import Orchestra from '../../assets/sounds/371059__joshuaempyre__duduk-with-orchestra.wav';
 import Bell from '../../assets/sounds/361496__tec-studio__bell-echo.wav';
+import { dismissAlarmById } from '../../features/alarms';
 
 const AlarmDialog = (): React.FC => {
+    const dispatch = useDispatch();
+
     const alarms = useSelector((state: AppState) => state.alarms.entities);
     const [time, setTime] = useState(DateTime.now);
     const [isOpen, setIsOpen] = useState(false);
     const [soundFile, setSoundFile] = useState(null);
+    const [alarmId, setAlarmId] = useState(null);
 
     const getSoundFile = (name: string) => {
         switch (name) {
@@ -33,9 +37,12 @@ const AlarmDialog = (): React.FC => {
     const checkAlarm = () => {
         setTime(DateTime.now);
         Object.values(alarms).forEach((a) => {
-            if (a.days.includes(time.weekdayLong) && a.time === time.toLocaleString(DateTime.TIME_SIMPLE)) {
+            const wasDismissedToday = a?.dismissed === DateTime.now().toISODate();
+
+            if (a.days.includes(time.weekdayLong) && a.time === time.toLocaleString(DateTime.TIME_SIMPLE) && !wasDismissedToday) {
                 setSoundFile(getSoundFile(a.soundFile));
                 setIsOpen(true);
+                setAlarmId(a.id);
             }
         });
     };
@@ -48,6 +55,7 @@ const AlarmDialog = (): React.FC => {
     const handleDismiss = () => {
         setIsOpen(false);
         setSoundFile(null);
+        dispatch(dismissAlarmById(alarmId));
     };
 
     return (
@@ -64,7 +72,7 @@ const AlarmDialog = (): React.FC => {
                 <Typography>Are you ready to wake up?</Typography>
             </DialogContent>
             <DialogActions>
-                <Button color="primary" onClick={handleDismiss}>
+                <Button color="secondary" onClick={handleDismiss}>
                     Dismiss
                 </Button>
             </DialogActions>
