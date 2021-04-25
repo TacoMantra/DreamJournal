@@ -8,6 +8,10 @@ namespace DreamJournal.Models
 {
     public class LifeEvent
     {
+        public int Id { get; set; }
+
+        public Guid UserGuid { get; set; }
+
         public LifeEventType Type { get; set; }
 
         public TimeIntervalType TimeOfOccurrence { get; set; }

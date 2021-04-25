@@ -7,7 +7,9 @@ namespace DreamJournal
 {
     public class User
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
+
+        public Guid UserGuid { get; set; }
 
         public string FirstName { get; set; }
 

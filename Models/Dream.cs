@@ -8,11 +8,13 @@ namespace DreamJournal.Models
 {
 	public class Dream
 	{
-		public User User { get; set; }
+		public int Id { get; set; }
+
+		public Guid UserGuid { get; set; }
 
 		public DateTime DateIn { get; set; }
 
-		public IEnumerable<Person> People { get; set; }
+		public ICollection<Person> People { get; set; }
 
 		public EmotionType Emotion { get; set; }
 
