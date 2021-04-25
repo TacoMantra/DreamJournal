@@ -27,7 +27,7 @@ namespace DreamJournal.Data
 
             foreach (var day in alarm.Days)
             {
-                dayNums.Add((int)day + 1);
+                dayNums.Add((int)day);
             }
 
             return $"DECLARE @TempTable TABLE(NewAlarmId INT) DECLARE @NewAlarmId INT;\n" +
