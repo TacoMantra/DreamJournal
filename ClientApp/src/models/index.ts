@@ -5,9 +5,9 @@ import Person from './person';
 import Place from './place';
 
 export {
-  Alarm,
-  Dream,
-  LifeEvent,
-  Person,
-  Place,
+    Alarm,
+    Dream,
+    LifeEvent,
+    Person,
+    Place,
 };
