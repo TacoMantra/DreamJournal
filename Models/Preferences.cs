@@ -7,7 +7,7 @@ namespace DreamJournal.Models
 {
     public class Preferences
     {
-        public User User { get; set; }
+        public Guid UserGuid { get; set; }
 
         public int SnoozeDurationInMinutes { get; set; }
 

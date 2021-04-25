@@ -8,6 +8,10 @@ namespace DreamJournal.Models
 {
     public class Place
     {
+        public int Id { get; set; }
+
+        public Guid UserGuid { get; set; }
+
         public PlaceType Type { get; set; }
 
         public string Name { get; set; }
