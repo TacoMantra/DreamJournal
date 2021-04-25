@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 
 namespace DreamJournal.Controllers
 {
+    // TODO: This should use EF, or at least stored procedure
     [ApiController]
     [Route("[controller]")]
     public class AlarmsController

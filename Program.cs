@@ -35,6 +35,7 @@ namespace DreamJournal
                     webBuilder.UseStartup<Startup>();
                 });
 
+        // Code-first generation 
         private static void CreateDbIfNotExists(IHost host)
         {
             using (var scope = host.Services.CreateScope())

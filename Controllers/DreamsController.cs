@@ -1,4 +1,6 @@
-﻿using DreamJournal.Models;
+﻿using DreamJournal.Data;
+using DreamJournal.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -7,23 +9,40 @@ using System.Threading.Tasks;
 
 namespace DreamJournal.Controllers
 {
-    public class Dreams : Controller
+    public class DreamsController : Controller
     {
+        // Dependency-inject EF context
+        private readonly DreamJournalContext _context;
 
-        [HttpGet]
-        public IEnumerable<Dream> GetDreams(string userId)
+        public DreamsController(DreamJournalContext context)
         {
-            // TODO: handle input errors with appropriate status code
-            // TODO: entity framework - query for all dreams for user from db
-            return new List<Dream>();
+            _context = context;
+        }
+
+        [HttpGet("{userId}/{take}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Dream>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult GetDreams(string userId, int take)
+        {
+            var isValidUserGuid = Guid.TryParse(userId, out var userGuid);
+
+            if (isValidUserGuid)
+            {
+                var dreams = _context.Dreams.Where(d => d.UserGuid == userGuid).OrderBy(d => d.DateIn).Take(take).ToList();
+                return Ok(dreams);
+            }
+
+            return BadRequest();
         }
 
         [HttpPost]
-        public StatusCodeResult PostDream(Dream dream)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public IActionResult PostDream(Dream dream)
         {
-            // TODO: handle input errors with appropriate status code
-            // TODO: entity framework - insert dream into db
-            return new StatusCodeResult(200);
+            _context.Dreams.Add(dream);
+            _context.SaveChanges();
+
+            return CreatedAtAction(nameof(PostDream), new { id = dream.Id });
         }
     }
 }
