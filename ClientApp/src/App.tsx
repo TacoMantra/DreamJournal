@@ -8,6 +8,8 @@ import AddAlarm from './Sections/add-alarm';
 import AppMenu from './components/app-menu/index';
 import { AddAlarmPath } from './Sections/add-alarm/AddAlarm';
 import AlarmDialog from './components/alarm-dialog/AlarmDialog';
+import { AddDreamPath } from './Sections/add-dream/AddDream';
+import AddDream from './Sections/add-dream';
 
 export default (): React.FC => (
     <MuiPickersUtilsProvider utils={LuxonUtils}>
@@ -16,6 +18,7 @@ export default (): React.FC => (
         <Layout>
             <Route exact path="/" component={Dashboard} />
             <Route exact path={AddAlarmPath} component={AddAlarm} />
+            <Route exact path={AddDreamPath} component={AddDream} />
         </Layout>
     </MuiPickersUtilsProvider>
 );
