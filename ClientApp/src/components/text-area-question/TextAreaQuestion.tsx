@@ -3,16 +3,16 @@ import {
     Grid, Typography, TextField, Button,
 } from '@material-ui/core';
 
-interface ITextQuestionProps {
+interface ITextAreaQuestionProps {
     question: string;
     onComplete: (string) => void;
+    placeholder: string;
     skippable?: boolean;
-    label: string;
 }
 
-const TextQuestion: React.FC<ITextQuestionProps> = ({
-    question, onComplete, skippable = true, label,
-}: ITextQuestionProps) => {
+const TextAreaQuestion: React.FC<ITextAreaQuestionProps> = ({
+    question, onComplete, skippable = true, placeholder,
+}: ITextAreaQuestionProps) => {
     const [value, setValue] = useState(null);
 
     const handleSubmit = () => {
@@ -25,7 +25,14 @@ const TextQuestion: React.FC<ITextQuestionProps> = ({
                 <Typography variant="h5" component="h2">{question}</Typography>
             </Grid>
             <Grid item xs={12}>
-                <TextField label={label} onChange={setValue} fullWidth />
+                <TextField
+                    multiline
+                    fullWidth
+                    variant="outlined"
+                    rows={6}
+                    placeholder={placeholder}
+                    onChange={setValue}
+                />
             </Grid>
             {
                 skippable && (
@@ -48,4 +55,4 @@ const TextQuestion: React.FC<ITextQuestionProps> = ({
     );
 };
 
-export default TextQuestion;
+export default TextAreaQuestion;

@@ -4,12 +4,20 @@ import {
 } from '@material-ui/core';
 
 interface IPersonNameQuestionProps {
-    onComplete: ({ firstName: string, lastName: string }) => void;
+    onComplete: (values: { firstName: string, lastName: string }) => void;
 }
 
 const PersonNameQuestion: React.FC<IPersonNameQuestionProps> = ({ onComplete }: IPersonNameQuestionProps) => {
-    const [firstName, setFirstName] = useState(null);
-    const [lastName, setLastName] = useState(null);
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+
+    const handleFirstNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFirstName(event.target.value);
+    };
+
+    const handleLastNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setLastName(event.target.value);
+    };
 
     const handleSubmit = () => {
         onComplete({
@@ -24,13 +32,13 @@ const PersonNameQuestion: React.FC<IPersonNameQuestionProps> = ({ onComplete }: 
                 <Typography variant="h5" component="h2">{'What\'s their name?'}</Typography>
             </Grid>
             <Grid item xs={12}>
-                <TextField label="First Name" onChange={setFirstName} fullWidth />
+                <TextField label="First Name" onChange={handleFirstNameChange} value={firstName} fullWidth />
             </Grid>
             <Grid item xs={12}>
-                <TextField label="Last Name" onChange={setLastName} fullWidth />
+                <TextField label="Last Name" onChange={handleLastNameChange} value={lastName} fullWidth />
             </Grid>
             <Grid>
-                <Button onClick={handleSubmit}>{'I DON\'T KNOW, SKIP THIS'}</Button>
+                <Button onClick={handleSubmit}>SKIP THIS</Button>
             </Grid>
             <Grid item container xs={12} direction="row" justify="flex-end">
                 <Button

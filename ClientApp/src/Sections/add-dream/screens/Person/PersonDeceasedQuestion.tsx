@@ -11,6 +11,7 @@ const PersonAddAnotherQuestion: React.FC<PersonAddAnotherQuestionProps> = ({ onY
         question="Is this person alive today?"
         onYes={onYes}
         onNo={onNo}
+        skipText={false}
     />
 );
 

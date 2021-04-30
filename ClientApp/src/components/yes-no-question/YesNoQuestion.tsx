@@ -7,17 +7,18 @@ interface YesNoQuestionProps {
     question: string;
     onYes: (string) => void;
     onNo: (string) => void;
+    skipText?: boolean;
 }
 
 const YesNoQuestion: React.FC<YesNoQuestionProps> = ({
-    question, onYes, onNo,
+    question, onYes, onNo, skipText = true,
 }: ITextQuestionProps) => (
     <Grid container spacing={2}>
         <Grid item>
             <Typography variant="h5" component="h2">{question}</Typography>
         </Grid>
         <Grid item container xs={12} direction="row" justify="flex-end">
-            <Button onClick={onNo}>No, Skip This</Button>
+            <Button onClick={onNo}>{`No${skipText ? ', Skip This' : ''}`}</Button>
             <Button
                 variant="contained"
                 color="primary"

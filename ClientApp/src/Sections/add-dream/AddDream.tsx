@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { People } from '@material-ui/icons';
 import Dream from '../../models/dream';
 import Place from '../../models/place';
-import Person, { IPerson, PersonType as PersonTypeEnum } from '../../models/person/Person';
-import EmotionQuestion from './screens/Emotion/EmotionQuestion';
+import LifeEvent from '../../models/life-event';
+import Person, { PersonType as PersonTypeEnum } from '../../models/person/Person';
+import EmotionQuestion from './screens/Emotion';
 import { PlaceNameQuestion, PlaceRealismQuestion, PlaceTypeQuestion } from './screens/Place';
 import {
     PersonDeceasedQuestion, PersonFamiliarityQuestion, PersonNameQuestion, PersonRelationshipQuestion, PersonTypeQuestion, PersonYesNoQuestion, PersonAddAnotherQuestion,
 } from './screens/Person';
+import {
+    LifeEventDescriptionQuestion, LifeEventTimeIntervalQuestion, LifeEventTypeQuestion, LifeEventYesNoQuestion,
+} from './screens/LifeEvent';
+import DescriptionQuestion from './screens/Description';
 
 enum Questions {
     EmotionType,
@@ -32,7 +36,7 @@ const AddDream = (): React.FC => {
     const [dream, setDream] = useState(Dream.create());
     const [place, setPlace] = useState(Place.create());
     const [person, setPerson] = useState(Person.create());
-    const [personTypeQuestionsWereSet, setPersonTypeQuestionsWereSet] = useState(false);
+    const [lifeEvent, setLifeEvent] = useState(LifeEvent.create());
     const [currentQuestion, setCurrentQuestion] = useState(Questions.EmotionType);
 
     const handleQuestionAnswer = <T extends unknown>(getter: T, setter: React.Dispatch<React.SetStateAction<T>>, key: keyof(T), value: string, nextQuestion?: Questions) => {
@@ -44,6 +48,37 @@ const AddDream = (): React.FC => {
         if (nextQuestion) {
             setCurrentQuestion(nextQuestion);
         }
+    };
+
+    const handlePersonTypeAnswer = (value: string) => {
+        setPerson({
+            ...person,
+            type: value,
+        });
+
+        if (value === PersonTypeEnum.Relationship) {
+            setCurrentQuestion(Questions.PersonFamiliarity);
+        } else {
+            setCurrentQuestion(Questions.PersonName);
+        }
+    };
+
+    const handlePersonNameAnswer = (firstName: string, lastName: string) => {
+        setPerson({
+            ...person,
+            firstName,
+            lastName,
+        });
+
+        setCurrentQuestion(Questions.PersonDeceased);
+    };
+
+    const saveDream = () => {
+        setDream({
+            ...dream,
+            place,
+            lifeEvent,
+        });
     };
 
     const addPerson = () => {
@@ -60,15 +95,8 @@ const AddDream = (): React.FC => {
         console.log('dream:', dream);
         console.log('place:', place);
         console.log('person:', person);
+        console.log('lifeEvent', lifeEvent);
         console.log(Questions[currentQuestion]);
-
-        if (person.type === PersonTypeEnum.Relationship && !personTypeQuestionsWereSet) {
-            setCurrentQuestion(Questions.PersonFamiliarity);
-            setPersonTypeQuestionsWereSet(true);
-        } else if (!personTypeQuestionsWereSet && (person.type === PersonTypeEnum.Famous || person.type === PersonTypeEnum.Fictional || person.Type === PersonTypeEnum.Other)) {
-            setCurrentQuestion(Questions.PersonName);
-            setPersonTypeQuestionsWereSet(true);
-        }
     }, [dream, place, person, currentQuestion]);
 
     switch (currentQuestion) {
@@ -83,18 +111,14 @@ const AddDream = (): React.FC => {
         case Questions.PersonYesNo:
             return <PersonYesNoQuestion onYes={() => setCurrentQuestion(Questions.PersonType)} onNo={() => setCurrentQuestion(Questions.LifeEventYesNo)} />;
         case Questions.PersonType:
-            return <PersonTypeQuestion onComplete={(value) => handleQuestionAnswer(person, setPerson, 'type', value)} />;
+            return <PersonTypeQuestion onComplete={(value) => handlePersonTypeAnswer(value)} />;
         case Questions.PersonFamiliarity:
             return <PersonFamiliarityQuestion onComplete={(value) => handleQuestionAnswer(person, setPerson, 'familiarity', value, Questions.PersonRelationship)} />;
         case Questions.PersonRelationship:
-            return <PersonRelationshipQuestion onComplete={(value) => handleQuestionAnswer(person, setPerson, 'relationship', value, Questions.PersonDeceased)} />;
+            return <PersonRelationshipQuestion onComplete={(value) => handleQuestionAnswer(person, setPerson, 'relationship', value, Questions.PersonName)} />;
         case Questions.PersonName:
             return (
-                <PersonNameQuestion onComplete={(values) => {
-                    handleQuestionAnswer(person, setPerson, 'firstname', values.firstName);
-                    handleQuestionAnswer(person, setPerson, 'lastName', values.lastName, Questions.PersonDeceased);
-                }}
-                />
+                <PersonNameQuestion onComplete={(values) => { handlePersonNameAnswer(values.firstName, values.lastName); }} />
             );
         case Questions.PersonDeceased:
             return (
@@ -109,14 +133,28 @@ const AddDream = (): React.FC => {
                     onYes={() => {
                         addPerson();
                         setPerson(Person.create());
-                        setPersonTypeQuestionsWereSet(false);
                         setCurrentQuestion(Questions.PersonType);
                     }}
                     onNo={() => {
                         addPerson();
-                        setPersonTypeQuestionsWereSet(false);
                         setCurrentQuestion(Questions.LifeEventYesNo);
                     }}
+                />
+            );
+        case Questions.LifeEventYesNo:
+            return <LifeEventYesNoQuestion onYes={() => setCurrentQuestion(Questions.LifeEventType)} onNo={() => setCurrentQuestion(Questions.Description)} />;
+        case Questions.LifeEventType:
+            return <LifeEventTypeQuestion onComplete={(value) => handleQuestionAnswer(lifeEvent, setLifeEvent, 'type', value, Questions.LifeEventInterval)} />;
+        case Questions.LifeEventInterval:
+            return <LifeEventTimeIntervalQuestion onComplete={(value) => handleQuestionAnswer(lifeEvent, setLifeEvent, 'timeOfOccurrence', value, Questions.LifeEventDescription)} />;
+        case Questions.LifeEventDescription:
+            return <LifeEventDescriptionQuestion onComplete={(value) => handleQuestionAnswer(lifeEvent, setLifeEvent, 'description', value, Questions.Description)} />;
+        case Questions.Description:
+            return (
+                <DescriptionQuestion onComplete={(value) => {
+                    handleQuestionAnswer(dream, setDream, 'description', value, Questions.Description);
+                    saveDream();
+                }}
                 />
             );
         default:
