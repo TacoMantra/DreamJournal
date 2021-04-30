@@ -8,7 +8,7 @@ interface PersonAddAnotherQuestionProps {
 
 const PersonAddAnotherQuestion: React.FC<PersonAddAnotherQuestionProps> = ({ onYes, onNo }: PersonAddAnotherQuestionProps) => (
     <YesNoQuestion
-        question="Is this person alive today?"
+        question="Do you want to add another person?"
         onYes={onYes}
         onNo={onNo}
     />

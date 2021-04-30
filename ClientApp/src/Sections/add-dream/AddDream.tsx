@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { People } from '@material-ui/icons';
 import Dream from '../../models/dream';
 import Place from '../../models/place';
-import Person, { PersonType, PersonType as PersonTypeEnum } from '../../models/person/Person';
+import Person, { IPerson, PersonType as PersonTypeEnum } from '../../models/person/Person';
 import EmotionQuestion from './screens/Emotion/EmotionQuestion';
 import { PlaceNameQuestion, PlaceRealismQuestion, PlaceTypeQuestion } from './screens/Place';
 import {
-    PersonDeceasedQuestion, PersonFamiliarityQuestion, PersonNameQuestion, PersonRelationshipQuestion, PersonTypeQuestion, PersonYesNoQuestion,
+    PersonDeceasedQuestion, PersonFamiliarityQuestion, PersonNameQuestion, PersonRelationshipQuestion, PersonTypeQuestion, PersonYesNoQuestion, PersonAddAnotherQuestion,
 } from './screens/Person';
 
 enum Questions {
@@ -43,6 +44,16 @@ const AddDream = (): React.FC => {
         if (nextQuestion) {
             setCurrentQuestion(nextQuestion);
         }
+    };
+
+    const addPerson = () => {
+        setDream({
+            ...dream,
+            people: [
+                ...dream.people,
+                person,
+            ],
+        });
     };
 
     useEffect(() => {
@@ -83,6 +94,29 @@ const AddDream = (): React.FC => {
                     handleQuestionAnswer(person, setPerson, 'firstname', values.firstName);
                     handleQuestionAnswer(person, setPerson, 'lastName', values.lastName, Questions.PersonDeceased);
                 }}
+                />
+            );
+        case Questions.PersonDeceased:
+            return (
+                <PersonDeceasedQuestion
+                    onYes={() => handleQuestionAnswer(person, setPerson, 'deceased', false, Questions.PersonAddAnother)}
+                    onNo={() => handleQuestionAnswer(person, setPerson, 'deceased', true, Questions.PersonAddAnother)}
+                />
+            );
+        case Questions.PersonAddAnother:
+            return (
+                <PersonAddAnotherQuestion
+                    onYes={() => {
+                        addPerson();
+                        setPerson(Person.create());
+                        setPersonTypeQuestionsWereSet(false);
+                        setCurrentQuestion(Questions.PersonType);
+                    }}
+                    onNo={() => {
+                        addPerson();
+                        setPersonTypeQuestionsWereSet(false);
+                        setCurrentQuestion(Questions.LifeEventYesNo);
+                    }}
                 />
             );
         default:
