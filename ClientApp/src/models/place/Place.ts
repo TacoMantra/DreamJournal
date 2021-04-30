@@ -82,9 +82,9 @@ export interface IPlace {
 }
 
 const create = (args: Partial<IPlace>): IPlace => ({
-    type: args.type || PlaceType.Unknown,
-    name: args.name || '',
-    realism: args.realism || RealismType.Unknown,
+    type: args?.type ?? PlaceType.Unknown,
+    name: args?.name ?? '',
+    realism: args?.realism ?? RealismType.Unknown,
 });
 
 const Place = {
