@@ -2,11 +2,11 @@ import * as React from 'react';
 import { Typography, Grid, IconButton } from '@material-ui/core';
 import NightsStayIcon from '@material-ui/icons/NightsStay';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import DreamCard from '../dream-card';
-import type { IDream } from '../../models/Dream/Dream';
-import { AddDreamPath } from './../../Sections/add-dream/AddDream';
 import AddIcon from '@material-ui/icons/Add';
 import { Link } from 'react-router-dom';
+import DreamCard from '../dream-card';
+import type { IDream } from '../../models/Dream/Dream';
+import { AddDreamPath } from '../../Sections/add-dream/AddDream';
 
 const DreamList = ({ dreams }: { dreams: Array<IDream> }): React.FC => (
     <>

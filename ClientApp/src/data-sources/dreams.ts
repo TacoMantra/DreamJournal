@@ -2,7 +2,7 @@ import axios from 'axios';
 import Dream, { IDream } from '../models/dream/Dream';
 
 const fetchDreams = async (userId: string): Promise<IDream> => {
-    const response = await axios.get(`dreams/${userId}/${take}`);
+    const response = await axios.get(`dreams/${userId}`);
 
     return response.data.map((d) => Dream.create({
         id: d.id,

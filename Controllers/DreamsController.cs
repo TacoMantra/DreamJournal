@@ -30,8 +30,15 @@ namespace DreamJournal.Controllers
 
             if (isValidUserGuid)
             {
-                var dreams = _context.Dreams.Where(d => d.UserGuid == userGuid).OrderBy(d => d.DateIn).ToList();
-                return Ok(dreams);
+                try
+                {
+                    var dreams = _context.Dreams.Where(d => d.UserGuid == userGuid).OrderBy(d => d.DateIn).ToList();
+                    return Ok(dreams);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error retrieving dreams", ex);
+                }
             }
 
             return BadRequest();
