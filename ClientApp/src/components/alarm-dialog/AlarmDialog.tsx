@@ -61,6 +61,13 @@ const AlarmDialog = (): React.FC => {
         dispatch(dismissAlarmById(alarmId));
     };
 
+    const handleRecord = () => {
+        setIsOpen(false);
+        setSoundFile(null);
+        dispatch(dismissAlarmById(alarmId));
+        history.push(AddDreamPath);
+    };
+
     return (
         <Dialog aria-labelledby="alarm-dialog-title" open={isOpen} maxWidth="xs" fullWidth>
             <DialogTitle id="alarm-dialog-title">
@@ -78,7 +85,7 @@ const AlarmDialog = (): React.FC => {
                 <Button color="secondary" onClick={handleDismiss}>
                     Dismiss
                 </Button>
-                <Button color="primary" variant="contained" onClick={() => history.push(AddDreamPath)}>
+                <Button color="primary" variant="contained" onClick={handleRecord}>
                     Record a Dream
                 </Button>
             </DialogActions>
