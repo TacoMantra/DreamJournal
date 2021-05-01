@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import Dream from '../../models/dream';
 import Place from '../../models/place';
 import LifeEvent from '../../models/life-event';
@@ -11,7 +12,10 @@ import {
 import {
     LifeEventDescriptionQuestion, LifeEventTimeIntervalQuestion, LifeEventTypeQuestion, LifeEventYesNoQuestion,
 } from './screens/LifeEvent';
+import Success from './screens/Success';
 import DescriptionQuestion from './screens/Description';
+import { createDreamForUser } from '../../features/dreams';
+import mockUserId from '../../consts/mocks';
 
 enum Questions {
     EmotionType,
@@ -30,13 +34,17 @@ enum Questions {
     LifeEventInterval,
     LifeEventDescription,
     Description,
+    SuccessScreen,
 }
 
 const AddDream = (): React.FC => {
+    const dispatch = useDispatch();
+
     const [dream, setDream] = useState(Dream.create());
     const [place, setPlace] = useState(Place.create());
     const [person, setPerson] = useState(Person.create());
     const [lifeEvent, setLifeEvent] = useState(LifeEvent.create());
+    const [dreamComplete, setDreamComplete] = useState(false);
     const [currentQuestion, setCurrentQuestion] = useState(Questions.EmotionType);
 
     const handleQuestionAnswer = <T extends unknown>(getter: T, setter: React.Dispatch<React.SetStateAction<T>>, key: keyof(T), value: string, nextQuestion?: Questions) => {
@@ -73,12 +81,14 @@ const AddDream = (): React.FC => {
         setCurrentQuestion(Questions.PersonDeceased);
     };
 
-    const saveDream = () => {
+    const saveDescriptionAndPostDream = (description: string) => {
         setDream({
             ...dream,
-            place,
-            lifeEvent,
+            place: { ...place },
+            lifeEvent: { ...lifeEvent },
+            description,
         });
+        setDreamComplete(true);
     };
 
     const addPerson = () => {
@@ -92,12 +102,15 @@ const AddDream = (): React.FC => {
     };
 
     useEffect(() => {
-        console.log('dream:', dream);
-        console.log('place:', place);
-        console.log('person:', person);
-        console.log('lifeEvent', lifeEvent);
-        console.log(Questions[currentQuestion]);
-    }, [dream, place, person, currentQuestion]);
+        // Place should never be null on complete, await a value
+        if (dreamComplete && dream.place !== null) {
+            dispatch(createDreamForUser({
+                userId: mockUserId,
+                dream,
+            }));
+            setCurrentQuestion(Questions.Success);
+        }
+    }, [dreamComplete, dream, dispatch]);
 
     switch (currentQuestion) {
         case Questions.EmotionType:
@@ -115,7 +128,7 @@ const AddDream = (): React.FC => {
         case Questions.PersonFamiliarity:
             return <PersonFamiliarityQuestion onComplete={(value) => handleQuestionAnswer(person, setPerson, 'familiarity', value, Questions.PersonRelationship)} />;
         case Questions.PersonRelationship:
-            return <PersonRelationshipQuestion onComplete={(value) => handleQuestionAnswer(person, setPerson, 'relationship', value, Questions.PersonName)} />;
+            return <PersonRelationshipQuestion onComplete={(value) => handleQuestionAnswer(person, setPerson, 'relationshipToUser', value, Questions.PersonName)} />;
         case Questions.PersonName:
             return (
                 <PersonNameQuestion onComplete={(values) => { handlePersonNameAnswer(values.firstName, values.lastName); }} />
@@ -151,14 +164,12 @@ const AddDream = (): React.FC => {
             return <LifeEventDescriptionQuestion onComplete={(value) => handleQuestionAnswer(lifeEvent, setLifeEvent, 'description', value, Questions.Description)} />;
         case Questions.Description:
             return (
-                <DescriptionQuestion onComplete={(value) => {
-                    handleQuestionAnswer(dream, setDream, 'description', value, Questions.Description);
-                    saveDream();
-                }}
-                />
+                <DescriptionQuestion onComplete={(value) => { saveDescriptionAndPostDream(value); }} />
             );
+        case Questions.SuccessScreen:
+            return <Success />;
         default:
-            return <EmotionQuestion onComplete={(value) => handleQuestionAnswer(dream, setDream, 'emotion', value, Questions.PlaceType)} />;
+            return <Success />;
     }
 };
 

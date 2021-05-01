@@ -8,12 +8,17 @@ interface ITextAreaQuestionProps {
     onComplete: (string) => void;
     placeholder: string;
     skippable?: boolean;
+    final?: boolean;
 }
 
 const TextAreaQuestion: React.FC<ITextAreaQuestionProps> = ({
-    question, onComplete, skippable = true, placeholder,
+    question, onComplete, placeholder, skippable = true, final = false,
 }: ITextAreaQuestionProps) => {
     const [value, setValue] = useState(null);
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setValue(event.target.value);
+    };
 
     const handleSubmit = () => {
         onComplete(value);
@@ -31,7 +36,7 @@ const TextAreaQuestion: React.FC<ITextAreaQuestionProps> = ({
                     variant="outlined"
                     rows={6}
                     placeholder={placeholder}
-                    onChange={setValue}
+                    onChange={handleChange}
                 />
             </Grid>
             {
@@ -48,7 +53,7 @@ const TextAreaQuestion: React.FC<ITextAreaQuestionProps> = ({
                     onClick={handleSubmit}
                     disabled={!value}
                 >
-                    Next
+                    {final ? 'Save' : 'Next'}
                 </Button>
             </Grid>
         </Grid>

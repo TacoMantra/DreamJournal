@@ -49,7 +49,7 @@ const DreamCard = ({
         <Card className={classes.root}>
             <Grid container alignItems="center">
                 <Grid item xs={9}>
-                    <Typography variant="h6">{DateTime.fromJSDate(dateIn).toLocaleString()}</Typography>
+                    <Typography variant="h6">{dateIn.toLocaleString(DateTime.DATETIME_SHORT)}</Typography>
                     <Typography>
                         {description}
                     </Typography>

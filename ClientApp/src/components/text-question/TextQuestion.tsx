@@ -15,6 +15,10 @@ const TextQuestion: React.FC<ITextQuestionProps> = ({
 }: ITextQuestionProps) => {
     const [value, setValue] = useState(null);
 
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setValue(event.target.value);
+    };
+
     const handleSubmit = () => {
         onComplete(value);
     };
@@ -25,7 +29,7 @@ const TextQuestion: React.FC<ITextQuestionProps> = ({
                 <Typography variant="h5" component="h2">{question}</Typography>
             </Grid>
             <Grid item xs={12}>
-                <TextField label={label} onChange={setValue} fullWidth />
+                <TextField label={label} onChange={handleChange} fullWidth />
             </Grid>
             {
                 skippable && (

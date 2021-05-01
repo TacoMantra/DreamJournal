@@ -7,7 +7,8 @@ interface IDescriptionQuestionProps {
 
 const DescriptionQuestion: React.FC<IDescriptionQuestionProps> = ({ onComplete }: IDescriptionQuestionProps) => (
     <TextAreaQuestion
-        skippable
+        final
+        skippable={false}
         question="Describe the dream"
         label="Name"
         onComplete={onComplete}

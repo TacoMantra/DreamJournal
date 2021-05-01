@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import type { IPerson } from '../person/Person';
 import type { IPlace } from '../place/Place';
 import type { ILifeEvent } from '../life-event/LifeEvent';
@@ -23,7 +24,8 @@ export enum EmotionType {
 }
 
 export interface IDream {
-    dateIn: Date;
+    userGuid: string | null;
+    dateIn: string;
     people: Array<IPerson>;
     emotion: EmotionType;
     place: IPlace | null;
@@ -32,7 +34,8 @@ export interface IDream {
 }
 
 const create = (args: Partial<IDream>): IDream => ({
-    dateIn: args?.dateIn ?? new Date(),
+    userGuid: args?.userGuid ?? null,
+    dateIn: args?.dateIn ?? DateTime.now().toLocaleString(DateTime.DATETIME_SHORT),
     people: args?.people ?? [],
     emotion: args?.emotion ?? EmotionType.Unknown,
     place: args?.place ?? null,

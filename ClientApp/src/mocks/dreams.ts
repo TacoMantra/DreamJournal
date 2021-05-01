@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import {
     Dream, Person, LifeEvent, Place,
 } from '../models';
@@ -8,7 +9,7 @@ import { LifeEventType, TimeIntervalType } from '../models/life-event/LifeEvent'
 
 const mockDreams = [
     Dream.create({
-        dateIn: new Date(),
+        dateIn: new Date().toLocaleString(DateTime.DATETIME_SHORT),
         people: [
             Person.create({
                 firstName: 'John',
@@ -31,7 +32,7 @@ const mockDreams = [
         description: 'I was in hell with my old friend John reminiscing about the good old days.',
     }),
     Dream.create({
-        dateIn: new Date(2021, 2, 14),
+        dateIn: new Date(2021, 2, 14).toLocaleString(DateTime.DATETIME_SHORT),
         people: [
             Person.create({
                 firstName: 'Laura',
@@ -45,7 +46,7 @@ const mockDreams = [
         }),
     }),
     Dream.create({
-        dateIn: new Date(2021, 1, 27),
+        dateIn: new Date(2021, 1, 27).toLocaleString(DateTime.DATETIME_SHORT),
         people: [
             Person.create({
                 firstName: 'Barbara',
