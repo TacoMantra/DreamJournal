@@ -43,10 +43,10 @@ export interface ILifeEvent {
 }
 
 const create = (args: Partial<ILifeEvent>): ILifeEvent => ({
-    type: args.type || LifeEventType.Unknown,
-    timeOfOccurrence: args.timeOfOccurrence || TimeIntervalType.Unknown,
-    name: args.name || '',
-    description: args.description || '',
+    type: args?.type ?? LifeEventType.Unknown,
+    timeOfOccurrence: args?.timeOfOccurrence ?? TimeIntervalType.Unknown,
+    name: args?.name ?? '',
+    description: args?.description ?? '',
 });
 
 const LifeEvent = {

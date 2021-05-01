@@ -1,13 +1,14 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
-import { AlarmReducer } from '../features';
+import { AlarmReducer, DreamReducer } from '../features';
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href') as string;
 const history = createBrowserHistory({ basename: baseUrl });
 
 const rootReducer = combineReducers({
     alarms: AlarmReducer,
+    dreams: DreamReducer,
     router: connectRouter(history),
 });
 

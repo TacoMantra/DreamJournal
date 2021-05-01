@@ -2,6 +2,7 @@ import {
     Dialog, DialogTitle, DialogContent, DialogActions, Typography, Grid, Button,
 } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
 import React, { useEffect, useState } from 'react';
 import { DateTime } from 'luxon';
 import ReactAudioPlayer from 'react-audio-player';
@@ -11,9 +12,11 @@ import WindChimes from '../../assets/sounds/118979__esperri__windchimes-2.wav';
 import Orchestra from '../../assets/sounds/371059__joshuaempyre__duduk-with-orchestra.wav';
 import Bell from '../../assets/sounds/361496__tec-studio__bell-echo.wav';
 import { dismissAlarmById } from '../../features/alarms';
+import { AddDreamPath } from '../../Sections/add-dream/AddDream';
 
 const AlarmDialog = (): React.FC => {
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const alarms = useSelector((state: AppState) => state.alarms.entities);
     const [time, setTime] = useState(DateTime.now);
@@ -58,6 +61,13 @@ const AlarmDialog = (): React.FC => {
         dispatch(dismissAlarmById(alarmId));
     };
 
+    const handleRecord = () => {
+        setIsOpen(false);
+        setSoundFile(null);
+        dispatch(dismissAlarmById(alarmId));
+        history.push(AddDreamPath);
+    };
+
     return (
         <Dialog aria-labelledby="alarm-dialog-title" open={isOpen} maxWidth="xs" fullWidth>
             <DialogTitle id="alarm-dialog-title">
@@ -74,6 +84,9 @@ const AlarmDialog = (): React.FC => {
             <DialogActions>
                 <Button color="secondary" onClick={handleDismiss}>
                     Dismiss
+                </Button>
+                <Button color="primary" variant="contained" onClick={handleRecord}>
+                    Record a Dream
                 </Button>
             </DialogActions>
             {soundFile ? <ReactAudioPlayer src={soundFile} autoPlay loop /> : null}

@@ -25,7 +25,7 @@ const DreamCard = ({
 
     const description = useMemo(() => {
     // These are needed to iterate over the prepositions by key
-        const placeTypeEnumValueIndex = Object.values(PlaceType).indexOf(place.type);
+        const placeTypeEnumValueIndex = Object.values(PlaceType).indexOf(place?.type);
         const placeTypeEnumKey = Object.keys(PlaceType)[placeTypeEnumValueIndex];
 
         const person = people[0] || null;
@@ -34,13 +34,13 @@ const DreamCard = ({
             : 'dreaming';
         const associationPhrase = person ? 'with' : '';
         const relationshipPhrase = (
-            person.relationshipToUser !== RelationshipType.Other
-      && person.relationshipToUser !== RelationshipType.Unknown
+            person?.relationshipToUser !== RelationshipType.Other
+            && person?.relationshipToUser !== RelationshipType.Unknown
         )
-            ? `your ${person.relationshipToUser.toLowerCase()} `
+            ? `your ${person?.relationshipToUser.toLowerCase()} `
             : '';
-        const personName = person.firstName || '';
-        const placePhrase = place ? ` ${PlacePreposition[placeTypeEnumKey]} ${place.type.toLowerCase()}...` : '...';
+        const personName = person?.firstName ?? '';
+        const placePhrase = place ? ` ${PlacePreposition[placeTypeEnumKey]} ${place?.type.toLowerCase()}...` : '...';
 
         return `You were ${emotionPhrase} ${associationPhrase} ${relationshipPhrase} ${personName}${placePhrase}`;
     }, [emotion, people, place]);
@@ -49,7 +49,7 @@ const DreamCard = ({
         <Card className={classes.root}>
             <Grid container alignItems="center">
                 <Grid item xs={9}>
-                    <Typography variant="h6">{DateTime.fromJSDate(dateIn).toLocaleString()}</Typography>
+                    <Typography variant="h6">{dateIn.toLocaleString(DateTime.DATETIME_SHORT)}</Typography>
                     <Typography>
                         {description}
                     </Typography>

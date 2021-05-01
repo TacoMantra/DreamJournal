@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace DreamJournal.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class DreamsController : Controller
     {
         // Dependency-inject EF context
@@ -19,30 +21,45 @@ namespace DreamJournal.Controllers
             _context = context;
         }
 
-        [HttpGet("{userId}/{take}")]
+        [HttpGet("{userId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Dream>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult GetDreams(string userId, int take)
+        public IActionResult GetDreams(string userId)
         {
             var isValidUserGuid = Guid.TryParse(userId, out var userGuid);
 
             if (isValidUserGuid)
             {
-                var dreams = _context.Dreams.Where(d => d.UserGuid == userGuid).OrderBy(d => d.DateIn).Take(take).ToList();
-                return Ok(dreams);
+                try
+                {
+                    var dreams = _context.Dreams.Where(d => d.UserGuid == userGuid).OrderBy(d => d.DateIn).ToList();
+                    return Ok(dreams);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error retrieving dreams", ex);
+                }
             }
 
             return BadRequest();
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public IActionResult PostDream(Dream dream)
         {
-            _context.Dreams.Add(dream);
-            _context.SaveChanges();
+            try
+            {
+                _context.Dreams.Add(dream);
+                _context.SaveChanges();
+                Console.WriteLine("dream posted");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error posting dream:", ex);
+            }
 
-            return CreatedAtAction(nameof(PostDream), new { id = dream.Id });
+            return CreatedAtAction(nameof(PostDream), new { id = dream.DateIn });
         }
     }
 }

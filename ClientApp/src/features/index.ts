@@ -1,5 +1,4 @@
 import AlarmReducer from './alarms';
+import DreamReducer from './dreams';
 
-// TODO: remove after adding more reducers
-// eslint-disable-next-line import/prefer-default-export
-export { AlarmReducer };
+export { AlarmReducer, DreamReducer };

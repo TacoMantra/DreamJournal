@@ -1,4 +1,6 @@
 ﻿using DreamJournal.Models.Enums;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +14,12 @@ namespace DreamJournal.Models
 
         public Guid UserGuid { get; set; }
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public PlaceType Type { get; set; }
 
         public string Name { get; set; }
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public RealismType Realism { get; set; }
     }
 }

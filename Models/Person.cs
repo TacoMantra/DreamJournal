@@ -1,4 +1,6 @@
 ﻿using DreamJournal.Models.Enums;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +18,15 @@ namespace DreamJournal.Models
 
 		public string LastName { get; set; }
 
+		[JsonConverter(typeof(StringEnumConverter))]
 		public RelationshipType RelationshipToUser { get; set; }
 		  
 		public bool Deceased { get; set; }
 
+		[JsonConverter(typeof(StringEnumConverter))]
 		public PersonType Type { get; set; }
 
+		[JsonConverter(typeof(StringEnumConverter))]
 		public FamiliarityType Familiarity { get; set; }
 	}
 }
